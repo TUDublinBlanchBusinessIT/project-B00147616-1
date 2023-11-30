@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "hotel";
+$dbname = "people";
 $port = 3307;
 
 // Create connection
