@@ -11,6 +11,8 @@ $sql = "INSERT INTO people (firstname, surname, dateofbirth, phoneNumber, emailA
         VALUES ('$fn', '$sn', '$dob', '$no', '$email')";
 
 //echo $sql;
-mysqli_query($con,$sql);
-mysqli_close();
+mysqli_query($conn, $sql);
+mysqli_close($conn);
+
+echo "Guest inserted";
 ?>
