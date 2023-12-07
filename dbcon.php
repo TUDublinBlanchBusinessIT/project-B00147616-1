@@ -4,7 +4,7 @@ date_default_timezone_set('Europe/London');
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "guests";
+$dbname = "guestspeoples";
 $port = 3307;
 
 // Create connection
