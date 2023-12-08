@@ -6,11 +6,15 @@ $pwrd = $_POST['pass'];
 
 require('dbcon.php');
 
-$conn = mysqli_connect($mysql_servername, $mysql_username, $mysql_password, $mysql_dbname);
+echo "Username: " . $usr . "<br>";
+echo "Password: " . $pwrd . "<br>";
 
-$sql = "select pwrd from registeredUsers where userName = '$usr'";
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+$sql = "SELECT pwrd FROM registeredUsers WHERE userName = '$usr'";
     
 $result = mysqli_query($conn, $sql);
+$dBpwrd = '';
 
 while($row = $result->fetch_assoc()) 
 {
