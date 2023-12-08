@@ -1,5 +1,14 @@
 <?php
 
+//session to time out user
+session_start();
+if ($_SESSION['lastAccessed'] < (time() - 600)) {
+    session_destroy();
+    echo "Your session has expired. Please log in again";
+} else {
+    $_SESSION['lastAccessed'] = time();
+}
+
 $usr = $_POST['user'];
 $pwrd = $_POST['pass'];
 
@@ -34,4 +43,5 @@ else {
     header("Location: loginTryAgain.html");
     echo 'the password does not match';
 }
+
 ?>
