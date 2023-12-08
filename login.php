@@ -9,24 +9,26 @@ require('dbcon.php');
 echo "Username: " . $usr . "<br>";
 echo "Password: " . $pwrd . "<br>";
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
 $sql = "SELECT pwrd FROM registeredUsers WHERE userName = '$usr'";
     
 $result = mysqli_query($conn, $sql);
 $dBpwrd = '';
 
-while($row = $result->fetch_assoc()) 
-{
-    $dBpwrd = $row['pwrd'];
+if (!$result) {
+    die("Error in SQL: " . mysqli_error($conn));
 }
 
-if (dBpwrd == $prwd)
-{
-    echo "the password matches";
+while($row = $result->fetch_assoc()) {
+    $dBpwrd = $row['pass'];
 }
-else
-{
-    echo "the password does not match";
+
+
+if ($pwrd == $dBpwrd) {
+    header("Location: loggedIn.html");
+    echo 'the password matches';
+}
+else {
+    header("Location: loginTryAgain.html");
+    echo 'the password does not match';
 }
 ?>
