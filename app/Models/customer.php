@@ -28,6 +28,9 @@ class customer extends Model
     use HasFactory;
 
     public $table = 'customer';
+
+    /**to help remove unwanted column */
+    public $timestamps = false;
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -43,9 +46,6 @@ class customer extends Model
         'email',
         'phone',
         'password',
-        'createdat',
-        'updatedat',
-        'deletedat'
     ];
 
     /**
@@ -60,9 +60,6 @@ class customer extends Model
         'email' => 'string',
         'phone' => 'string',
         'password' => 'string',
-        'createdat' => 'datetime',
-        'updatedat' => 'datetime',
-        'deletedat' => 'datetime'
     ];
 
     /**
@@ -76,9 +73,6 @@ class customer extends Model
         'email' => 'nullable|string|max:50',
         'phone' => 'nullable|string|max:20',
         'password' => 'nullable|string|max:255',
-        'createdat' => 'nullable',
-        'updatedat' => 'nullable',
-        'deletedat' => 'nullable'
     ];
 
     /**

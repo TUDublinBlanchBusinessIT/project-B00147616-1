@@ -14,14 +14,29 @@ class AddDeletedAtToCustomerTable extends Migration
     public function up()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->softDeletes(); //adds deleted column
+            // Drop unnecessary columns
+            $table->dropColumn(['createdat', 'updatedat', 'deletedat']);
+
+            // Add softDeletes to the table
+            $table->softDeletes();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->dropSoftDeletes(); //removes deleted column
+            // Re-add the dropped columns in case we want to roll back
+            $table->timestamp('createdat')->nullable();
+            $table->timestamp('updatedat')->nullable();
+            $table->timestamp('deletedat')->nullable();
+
+            // Remove softDeletes in case we want to roll back
+            $table->dropSoftDeletes();
         });
     }
-    }    
+}
