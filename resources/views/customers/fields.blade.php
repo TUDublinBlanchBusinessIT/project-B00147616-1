@@ -28,24 +28,6 @@
     {!! Form::password('password', ['class' => 'form-control']) !!}
 </div>
 
-<!-- Createdat Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('createdat', 'Createdat:') !!}
-    {!! Form::date('createdat', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Updatedat Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('updatedat', 'Updatedat:') !!}
-    {!! Form::date('updatedat', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Deletedat Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('deletedat', 'Deletedat:') !!}
-    {!! Form::date('deletedat', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

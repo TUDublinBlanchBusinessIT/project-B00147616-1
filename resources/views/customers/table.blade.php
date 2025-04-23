@@ -5,9 +5,6 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Password</th>
-        <th>Createdat</th>
-        <th>Updatedat</th>
-        <th>Deletedat</th>
         <th colspan="3">Action</th>
     </thead>
     <tbody>
@@ -18,9 +15,6 @@
             <td>{!! $customer->email !!}</td>
             <td>{!! $customer->phone !!}</td>
             <td>{!! $customer->password !!}</td>
-            <td>{!! $customer->createdat !!}</td>
-            <td>{!! $customer->updatedat !!}</td>
-            <td>{!! $customer->deletedat !!}</td>
             <td>
                 {!! Form::open(['route' => ['customers.destroy', $customer->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

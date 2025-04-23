@@ -28,21 +28,3 @@
     <p>{!! $customer->password !!}</p>
 </div>
 
-<!-- Createdat Field -->
-<div class="form-group">
-    {!! Form::label('createdat', 'Createdat:') !!}
-    <p>{!! $customer->createdat !!}</p>
-</div>
-
-<!-- Updatedat Field -->
-<div class="form-group">
-    {!! Form::label('updatedat', 'Updatedat:') !!}
-    <p>{!! $customer->updatedat !!}</p>
-</div>
-
-<!-- Deletedat Field -->
-<div class="form-group">
-    {!! Form::label('deletedat', 'Deletedat:') !!}
-    <p>{!! $customer->deletedat !!}</p>
-</div>
-
