@@ -33,3 +33,6 @@ Route::resource('orders', App\Http\Controllers\ordersController::class);
 
 /** route to display images */
 Route::get('product/displaygrid', 'App\Http\Controllers\productController@displaygrid')->name('products.displaygrid');
+
+/** route to add item in navbar */
+Route::get('product/additem/{id}', 'App\Http\Controllers\productController@additem')->name('products.additem');
