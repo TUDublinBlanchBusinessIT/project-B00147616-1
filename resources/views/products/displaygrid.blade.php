@@ -23,21 +23,23 @@
         </div>
     @endforeach
     </div>
+    <script>
     $(".bth,.addItem").click(function() {
-    var total = parseInt($('#shoppingcart').text());
-    var i=$(this).val();
-    $('#shoppingcart').text(total);
-    $.ajax({
-      type: "get",
-      url: "{{url('product/additem/')}}" + "/" + i,
-      type: "GET",
-      success: function(response) {
-          total=total+1;
-          $('#shoppingcart').text(response.total);
-      },
-      error: function() {
-          alert("problem communicating with the server");
-      }
+        var total = parseInt($('#shoppingcart').text());
+        var i=$(this).val();
+        $('#shoppingcart').text(total);
+        $.ajax({
+            type: "get",
+            url: "{{url('product/additem/')}}" + "/" + i,
+            type: "GET",
+            success: function(response) {
+                total=total+1;
+                $('#shoppingcart').text(response.total);
+        },
+        error: function() {
+            alert("problem communicating with the server");
+        }
+        });
     });
-});
+    </script>
 @endsection('content')
