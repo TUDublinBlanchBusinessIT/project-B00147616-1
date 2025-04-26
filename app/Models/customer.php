@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class customer
  * @package App\Models
- * @version April 18, 2025, 9:03 pm UTC
+ * @version April 24, 2025, 9:04 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $orders
  * @property string $firstname
@@ -17,9 +17,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $email
  * @property string $phone
  * @property string $password
- * @property string|\Carbon\Carbon $createdat
- * @property string|\Carbon\Carbon $updatedat
- * @property string|\Carbon\Carbon $deletedat
  */
 class customer extends Model
 {
@@ -28,9 +25,6 @@ class customer extends Model
     use HasFactory;
 
     public $table = 'customer';
-
-    /**to help remove unwanted column */
-    public $timestamps = false;
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -45,7 +39,7 @@ class customer extends Model
         'lastname',
         'email',
         'phone',
-        'password',
+        'password'
     ];
 
     /**
@@ -59,7 +53,7 @@ class customer extends Model
         'lastname' => 'string',
         'email' => 'string',
         'phone' => 'string',
-        'password' => 'string',
+        'password' => 'string'
     ];
 
     /**
@@ -73,6 +67,7 @@ class customer extends Model
         'email' => 'nullable|string|max:50',
         'phone' => 'nullable|string|max:20',
         'password' => 'nullable|string|max:255',
+        'deleted_at' => 'nullable'
     ];
 
     /**

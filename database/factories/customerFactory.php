@@ -27,9 +27,7 @@ class customerFactory extends Factory
         'email' => $this->faker->word,
         'phone' => $this->faker->word,
         'password' => $this->faker->word,
-        'createdat' => $this->faker->date('Y-m-d H:i:s'),
-        'updatedat' => $this->faker->date('Y-m-d H:i:s'),
-        'deletedat' => $this->faker->date('Y-m-d H:i:s')
+        'deleted_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

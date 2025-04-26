@@ -21,3 +21,15 @@ Route::get('/', function () {
 Route::resource('customers', App\Http\Controllers\customerController::class);
 Route::get('/customers/new', 'App\Http\Controllers\CustomerController@new');
 Route::post('/customers/create', 'App\Http\Controllers\CustomerController@create')->name('customers.create');
+
+
+Route::resource('products', App\Http\Controllers\productController::class);
+
+
+Route::resource('bouquets', App\Http\Controllers\bouquetController::class);
+
+
+Route::resource('orders', App\Http\Controllers\ordersController::class);
+
+/** route to display images */
+Route::get('product/displaygrid', 'App\Http\Controllers\productController@displaygrid')->name('products.displaygrid');

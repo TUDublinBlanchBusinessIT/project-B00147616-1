@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class customerRepository
  * @package App\Repositories
- * @version April 18, 2025, 9:03 pm UTC
+ * @version April 24, 2025, 9:04 pm UTC
 */
 
 class customerRepository extends BaseRepository
@@ -21,10 +21,7 @@ class customerRepository extends BaseRepository
         'lastname',
         'email',
         'phone',
-        'password',
-        'createdat',
-        'updatedat',
-        'deletedat'
+        'password'
     ];
 
     /**
