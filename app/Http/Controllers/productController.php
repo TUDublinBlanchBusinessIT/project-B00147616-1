@@ -154,10 +154,16 @@ class productController extends AppBaseController
         return redirect(route('products.index'));
     }
 
-    /**image display */
-    public function displayGrid(Request $request)
+        /**
+     * Display a grid of products or images
+     *
+     * @return Response
+     */
+    public function displaygrid()
     {
-        $products=\App\Models\Product::all();
-        return view('products.displaygrid')->with('products',$products);
+        $products = $this->productRepository->all();
+
+        return view('products.displaygrid', compact('products'));
     }
+
 }

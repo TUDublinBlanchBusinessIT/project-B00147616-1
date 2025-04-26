@@ -11,14 +11,29 @@ class AddDeletedAtToCustomerTable extends Migration
      *
      * @return void
      */
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('customer', function (Blueprint $table) {
-            // Drop unnecessary columns
-            $table->dropColumn(['createdat', 'updatedat', 'deletedat']);
+            // Check if 'deleted_at' column exists, if not, add it
+            if (!Schema::hasColumn('customer', 'deleted_at')) {
+                $table->softDeletes();
+            }
 
-            // Add softDeletes to the table
-            $table->softDeletes();
+            // Drop unnecessary columns if they exist
+            if (Schema::hasColumn('customer', 'createdat')) {
+                $table->dropColumn('createdat');
+            }
+            if (Schema::hasColumn('customer', 'updatedat')) {
+                $table->dropColumn('updatedat');
+            }
+            if (Schema::hasColumn('customer', 'deletedat')) {
+                $table->dropColumn('deletedat');
+            }
         });
     }
 
