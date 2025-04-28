@@ -156,19 +156,36 @@ class productController extends AppBaseController
     }
 
         /**
-     * Display a grid of products or images
+     * Display a grid of products or images and figures how many code in the cart
      *
      * @return Response
      */
-    public function displaygrid()
-    {
-        $products = $this->productRepository->all();
+    public function displaygrid(Request $request)
+{
+    $products = \App\Models\Product::all();
+    echo "got products";
 
-        return view('products.displaygrid', compact('products'));
+    if ($request->session()->has('cart')) {
+        $cart = $request->session()->get('cart');
+        print_r($cart);
+        $totalQty = 0;
+        foreach ($cart as $product => $qty) {
+            $totalQty = $totalQty + $qty;
+        }
+        $totalItems = $totalQty;
+    } else {
+        $totalItems = 0;
+        echo "no cart";
     }
 
+    return view('products.displaygrid')
+        ->with('products', $products)
+        ->with('totalItems', $totalItems);
+}
+
+
     /** navbar application */
-    public function additem($productid)
+    public function additem(Request $request, $productid)
     {
         if (Session::has('cart')) {
             $cart = Session::get('cart');
@@ -185,5 +202,14 @@ class productController extends AppBaseController
         Session::put('cart', $cart);
         return Response::json(['success'=>true,'total'=>array_sum($cart)],200);
     }
+
+    /** clearing cart function */
+    public function emptycart()
+     {
+         if (Session::has('cart')) {
+             Session::forget('cart');
+         }
+         return Response::json(['success'=>true],200);
+     }
 
 }

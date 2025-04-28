@@ -36,3 +36,6 @@ Route::get('product/displaygrid', 'App\Http\Controllers\productController@displa
 
 /** route to add item in navbar */
 Route::get('product/additem/{id}', 'App\Http\Controllers\productController@additem')->name('products.additem');
+
+/** route to empty cart in navbar */
+Route::get('product/emptycart', 'App\Http\Controllers\productController@emptycart')->name('products.emptycart');
