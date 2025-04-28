@@ -163,7 +163,6 @@ class productController extends AppBaseController
     public function displaygrid(Request $request)
 {
     $products = \App\Models\Product::all();
-    echo "got products";
 
     if ($request->session()->has('cart')) {
         $cart = $request->session()->get('cart');
@@ -175,7 +174,6 @@ class productController extends AppBaseController
         $totalItems = $totalQty;
     } else {
         $totalItems = 0;
-        echo "no cart";
     }
 
     return view('products.displaygrid')
