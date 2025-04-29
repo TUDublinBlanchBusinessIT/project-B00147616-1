@@ -45,3 +45,6 @@ Route::get('order/checkout', 'App\Http\Controllers\ordersController@checkout')->
 
 /** route to for checkout form */
 Route::post('order/placeorder', 'App\Http\Controllers\ordersController@placeorder')->name('orders.placeorder');
+
+/** route to submit checked out cart */
+Route::post('orders/placeorder', [App\Http\Controllers\ordersController::class, 'placeorder'])->name('orders.placeorder');
