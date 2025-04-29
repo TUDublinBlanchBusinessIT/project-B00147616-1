@@ -46,7 +46,7 @@
 
     <div class="total-summary">
         <p>Total Quantity: {{ $ttlQty }}</p>
-        <p>Total Cost: ${{ number_format($ttlCost, 2) }}</p>
+        <p>Total Cost: €{{ number_format($ttlCost, 2) }}</p>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
