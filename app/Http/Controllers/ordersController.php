@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Session;
+use App\Models\Order;
+
 
 class ordersController extends AppBaseController
 {
@@ -48,17 +51,17 @@ class ordersController extends AppBaseController
     /**
      * Store a newly created orders in storage.
      *
-     * @param CreateordersRequest $request
+     * @param CreateOrdersRequest $request
      *
      * @return Response
      */
-    public function store(CreateordersRequest $request)
+    public function store(CreateOrdersRequest $request)
     {
         $input = $request->all();
 
         $orders = $this->ordersRepository->create($input);
 
-        Flash::success('Orders saved successfully.');
+        Flash::success('Order saved successfully.');
 
         return redirect(route('orders.index'));
     }
@@ -72,15 +75,15 @@ class ordersController extends AppBaseController
      */
     public function show($id)
     {
-        $orders = $this->ordersRepository->find($id);
+        $order = $this->ordersRepository->find($id);
 
-        if (empty($orders)) {
-            Flash::error('Orders not found');
+        if (empty($order)) {
+            Flash::error('Order not found');
 
             return redirect(route('orders.index'));
         }
 
-        return view('orders.show')->with('orders', $orders);
+        return view('orders.show')->with('order', $order);
     }
 
     /**
@@ -92,41 +95,39 @@ class ordersController extends AppBaseController
      */
     public function edit($id)
     {
-        $orders = $this->ordersRepository->find($id);
+        $order = $this->ordersRepository->find($id);
 
-        if (empty($orders)) {
-            Flash::error('Orders not found');
+        if (empty($order)) {
+            Flash::error('Order not found');
 
             return redirect(route('orders.index'));
         }
 
-        return view('orders.edit')->with('orders', $orders);
+        return view('orders.edit')->with('order', $order);
     }
 
     /**
      * Update the specified orders in storage.
      *
      * @param int $id
-     * @param UpdateordersRequest $request
+     * @param UpdateOrdersRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateordersRequest $request)
-    {
-        $orders = $this->ordersRepository->find($id);
+    public function update($id, UpdateOrdersRequest $request)
+{
+    $order = $this->ordersRepository->find($id);
 
-        if (empty($orders)) {
-            Flash::error('Orders not found');
-
-            return redirect(route('orders.index'));
-        }
-
-        $orders = $this->ordersRepository->update($request->all(), $id);
-
-        Flash::success('Orders updated successfully.');
-
+    if (empty($order)) {
+        Flash::error('Order not found');
         return redirect(route('orders.index'));
     }
+
+    $order = $this->ordersRepository->update($request->all(), $id);
+
+    Flash::success('Order updated successfully.');
+    return redirect(route('orders.index'));
+}
 
     /**
      * Remove the specified orders from storage.
@@ -139,18 +140,58 @@ class ordersController extends AppBaseController
      */
     public function destroy($id)
     {
-        $orders = $this->ordersRepository->find($id);
+        $order = $this->ordersRepository->find($id);
 
-        if (empty($orders)) {
-            Flash::error('Orders not found');
+        if (empty($order)) {
+            Flash::error('Order not found');
 
             return redirect(route('orders.index'));
         }
 
         $this->ordersRepository->delete($id);
 
-        Flash::success('Orders deleted successfully.');
+        Flash::success('Order deleted successfully.');
 
         return redirect(route('orders.index'));
     }
+
+    /** function for checkout form */
+    public function checkout()
+    {
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+            $lineitems = array();
+            foreach ($cart as $productid => $qty) {
+                $lineitem['product'] = \App\Models\Product::find($productid);
+                $lineitem['qty'] = $qty;
+                $lineitems[] = $lineitem;
+            }
+            return view('orders.checkout')->with('lineitems', $lineitems);
+        }
+        else {
+            Flash::error("There are no items in your cart");
+            return redirect(route('products.displaygrid'));
+        }
+    }
+
+    /** function that process the checkout when submitted */
+    public function placeorder(Request $request)
+{
+    $thisOrder = new Order();;
+    $thisOrder->orderdate = (new \DateTime())->format("Y-m-d H:i:s");
+    $thisOrder->save();
+    $orderID = $thisOrder->id;
+    $productids = $request->productid;
+    $quantities = $request->quantity;
+    for($i=0;$i<sizeof($productids);$i++) {
+        $thisOrderDetail = new \App\Models\OrderDetail();
+        $thisOrderDetail->orderid = $orderID;
+        $thisOrderDetail->productid = $productids[$i];
+        $thisOrderDetail->quantity = $quantities[$i];
+        $thisOrderDetail->save();
+    }
+    Session::forget('cart');
+    Flash::success("Your Order has Been Placed");
+    return redirect(route('products.displaygrid'));
+}
 }

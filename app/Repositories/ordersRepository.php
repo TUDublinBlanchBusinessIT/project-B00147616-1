@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\orders;
+use App\Models\Order;
 use App\Repositories\BaseRepository;
 
 /**
@@ -40,6 +40,6 @@ class ordersRepository extends BaseRepository
      **/
     public function model()
     {
-        return orders::class;
+        return Order::class;
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class orders
+ * Class Order
  * @package App\Models
  * @version April 26, 2025, 6:46 pm UTC
  *
@@ -20,21 +20,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $quantity
  * @property number $total
  */
-class orders extends Model
+class Order extends Model // Use uppercase "Order"
 {
     use SoftDeletes;
-
     use HasFactory;
 
-    public $table = 'orders';
-    
+    public $table = 'orders';  // Table name remains in lowercase
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'orderdate',

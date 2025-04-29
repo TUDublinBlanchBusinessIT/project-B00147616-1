@@ -39,3 +39,9 @@ Route::get('product/additem/{id}', 'App\Http\Controllers\productController@addit
 
 /** route to empty cart in navbar */
 Route::get('product/emptycart', 'App\Http\Controllers\productController@emptycart')->name('products.emptycart');
+
+/** route to for checkout cart */
+Route::get('order/checkout', 'App\Http\Controllers\ordersController@checkout')->name('orders.checkout');
+
+/** route to for checkout form */
+Route::post('order/placeorder', 'App\Http\Controllers\ordersController@placeorder')->name('orders.placeorder');

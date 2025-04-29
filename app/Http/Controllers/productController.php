@@ -166,7 +166,6 @@ class productController extends AppBaseController
 
     if ($request->session()->has('cart')) {
         $cart = $request->session()->get('cart');
-        print_r($cart);
         $totalQty = 0;
         foreach ($cart as $product => $qty) {
             $totalQty = $totalQty + $qty;
