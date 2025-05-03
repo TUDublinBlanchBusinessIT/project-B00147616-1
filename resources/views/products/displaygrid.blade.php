@@ -1,37 +1,72 @@
 @extends('layouts.app')
+
 @section('content')
-<div style="padding-top:1%">
-    <nav class="navbar navbar-right navbar-expand-sm navbar-dark bg-dark">
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><button id="checkOut" onclick="window.location.href='{{route('orders.checkout')}}'" type="button" style="margin-right:5px;" class="btn btn-primary navbar-btn center-block">Check Out</button></li>
-            <li class="nav-item"><button id="emptycart" type="button" style="margin-right:5px;" class="btn btn-primary navbar-btn center-block">Empty Cart</button></li>
-            <li class="nav-item"><span style="font-size:40px;margin-right:0px;" class="glyphicon glyphicon-shopping-cart navbar-btn"></span></li>
-            <li class="nav-item"><div class="navbar-text" id="shoppingcart" style="font-size:12pt;margin-left:5px;margin-right:0px;">{{$totalItems}}</div></li>
-            <li class="nav-item"><div class="navbar-text" style="font-size:14pt;margin-left:0px;">Item(s)</div></li>
-        <ul>
-    </nav>
-</div>
-@include('flash::message')
-    <div class='d-flex flex-wrap align-content-start bg-light'>
-    @foreach($products as $product)
-        <div class="p-2 border col-4 g-3">
-            <div class="card text-center">
-                <div class="card-header d-block"><h5 class="mx-auto d-block">{{ $product->name }} {{ $product->description }}</h5></div>
-                <div class="card-body"><img style="width:65%;height:200px;" class="mx-auto d-block" src="{{ asset('/img/' . $product->imagepath)}}"/></div>
-                <div class="card-footer"><button id="addItem" type="button" class="btn btn-success mx-auto d-block addItem" value="{{$product->id}}">Add To Cart</button></div>
+
+<!-- Main Container -->
+<div class="container-fluid py-4">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">Bouquet Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button id="checkOut" onclick="window.location.href='{{route('orders.checkout')}}'" type="button" class="btn btn-primary navbar-btn">Check Out</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="emptycart" type="button" class="btn btn-danger navbar-btn ms-3">Empty Cart</button>
+                    </li>
+                    <li class="nav-item">
+                        <span class="glyphicon glyphicon-shopping-cart navbar-btn ms-3" style="font-size: 24px;"></span>
+                    </li>
+                    <li class="nav-item">
+                        <div class="navbar-text ms-2" id="shoppingcart" style="font-size: 16px; font-weight: bold;">{{$totalItems}}</div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="navbar-text" style="font-size: 16px;">Item(s)</div>
+                    </li>
+                </ul>
             </div>
         </div>
-    @endforeach
+    </nav>
+
+    <!-- Flash Messages (if any) -->
+    @include('flash::message')
+
+    <!-- Product Display Grid -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+        @foreach($products as $product)
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="{{ asset('/img/' . $product->imagepath)}}" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <p class="card-text">{{ $product->description }}</p>
+                    <p class="text-muted">Price: €{{ number_format($product->price, 2) }}</p>
+                    <button id="addItem" type="button" class="btn btn-success" value="{{$product->id}}">Add To Cart</button>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
-    <script>
+
+</div>
+
+<!-- JavaScript for AJAX functionality -->
+<script>
 $(document).ready(function() {
+    // Add to Cart functionality
     $(".addItem").click(function() {
-        var i = $(this).val(); // get the product id
+        var productId = $(this).val();
         $.ajax({
             type: "GET",
-            url: "{{url('product/additem/')}}" + "/" + i,
+            url: "{{ url('product/additem') }}/" + productId,
             success: function(response) {
-                $('#shoppingcart').text(response.total); // update cart number
+                $('#shoppingcart').text(response.total); // Update the shopping cart count
             },
             error: function() {
                 alert("Problem communicating with the server");
@@ -39,12 +74,13 @@ $(document).ready(function() {
         });
     });
 
+    // Empty Cart functionality
     $("#emptycart").click(function() {
         $.ajax({
             type: "GET",
             url: "{{ url('product/emptycart') }}",
             success: function() {
-                $('#shoppingcart').text(0); // reset cart number
+                $('#shoppingcart').text(0); // Reset the shopping cart count
             },
             error: function() {
                 alert("Problem communicating with the server");
@@ -53,4 +89,5 @@ $(document).ready(function() {
     });
 });
 </script>
-@endsection('content')
+
+@endsection

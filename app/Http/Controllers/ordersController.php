@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use Illuminate\Support\Facades\Session;
 use App\Models\Order;
+use App\Models\OrderDetail;
 
 
 class ordersController extends AppBaseController
@@ -174,24 +175,28 @@ class ordersController extends AppBaseController
         }
     }
 
-    /** function that process the checkout when submitted */
+    /** function to place order */
     public function placeorder(Request $request)
 {
-    $thisOrder = new Order();;
-    $thisOrder->orderdate = (new \DateTime())->format("Y-m-d H:i:s");
+    $thisOrder = new Order();
+    $thisOrder->orderdate = (new \DateTime())->format("Y-m-d");
     $thisOrder->save();
+
     $orderID = $thisOrder->id;
     $productids = $request->productid;
     $quantities = $request->quantity;
-    for($i=0;$i<sizeof($productids);$i++) {
-        $thisOrderDetail = new \App\Models\OrderDetail();
-        $thisOrderDetail->orderid = $orderID;
-        $thisOrderDetail->productid = $productids[$i];
-        $thisOrderDetail->quantity = $quantities[$i];
-        $thisOrderDetail->save();
+
+    for ($i = 0; $i < sizeof($productids); $i++) {
+        OrderDetail::create([
+            'order_id' => $orderID,
+            'product_id' => $productids[$i],
+            'quantity' => $quantities[$i],
+            'price' => \App\Models\Product::find($productids[$i])->price, // optional if price is static
+        ]);
     }
+
     Session::forget('cart');
-    Flash::success("Your Order has Been Placed");
+    Flash::success("Your Order has been placed.");
     return redirect(route('products.displaygrid'));
 }
 }

@@ -76,4 +76,9 @@ class product extends Model
     {
         return $this->hasMany(\App\Models\Bouquet::class, 'productid');
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }
